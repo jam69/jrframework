@@ -1,0 +1,19 @@
+
+
+Recetilla para hacer las plantillas de los items a partir del SwingRunnerLight
+-------------------------------------------------------------------------------
+
+1. copiar el componente de SwingRunnerLight en  la plantilla conrrespondiente
+2. Asignar las variables "final static string" a <assign>
+3. Tomar los atributos del XML en variables con <assign>
+3a.  Sustituir los usos de 'var' por "${var[0]}" (no olvidarse de las comillas)
+4. Crear el objeto con el modificador 'final' para que se pueda acceder desde los 'listeners'
+5. Utilizar ${id}.  como el objeto para las llamadas que hacía antes al padre o a 'this'
+6. Comprobar la existencia de variables con la construcción <#if prop_name[0]??>  y no generar
+    codigo innecesario.
+7. Por ahora sustituir las llamadas a RunnerLF.get por su valor o por llamadas a SwingUtil.getFont(String)
+8. Si se usan variables locales utilizar '{' y '}' para encerrr los bloques donde se usan (y no 
+    esten accesibles fuera, (no se repitan los nombres) ).
+9. Sustituir los   listener=new ContextListener(....); ... ctx.addListener(var,listener)
+    por ctx.addListener(var,new ContextListener(....){...});
+10. Revisar lo generado, y comprobar la indentación

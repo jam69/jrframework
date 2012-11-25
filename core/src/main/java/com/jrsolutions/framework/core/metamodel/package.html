@@ -1,0 +1,42 @@
+Utilidades para manejar la estructura de los objetos (metainformacion).
+
+<body>
+Nos da la información sobre las clases (identificadores, nombres, etc,..)
+y los atributos que tienen (nombres, tipos, editores,...)
+
+<br>Las interfaces fundamentales son:
+<ul>
+    <li>MetaInfoFactory:Devuelve la información sobre una clase.</li>
+    <li>MetaEntity:Contiene la información de una clase</li>
+    <li>MetaAttribute:Contiene la información de los atributos</li>
+</ul>
+
+
+<h2>Entidades</h2>
+Aunque normalmente, los objetos manejados son una instancia de Java, y se
+manejan por 'introspeccion' es posible crear elementos a los que asignamos
+un tipo, que puede no existir como clase java. Esos elementos los llamamos
+Entitys.
+
+<h2>Entidades Dinamicas</h2>
+Son las implementaciones de Entity, cuando no existe la clase del tipo
+indicado, y 'nos inventamos' sus propiedades, o sus instancias
+
+<h2>Intro</h2>
+Es el paquete que implementa la metainformación para clases java que ya
+estan creadas. Para ello utiliza la introspección.
+
+<h2>xml</h2>
+Es la implementación de una 'factoria' de información que está almacenada
+en un fichero XML.
+
+<h2>creators</h2>
+Es una utilidad para crear datos aleatorios (o secuenciales)
+
+<h2>Editores</h2>
+Cada propiedad tiene un 'editor' asociado. El editor es un String que
+representa la forma de tratar esa propiedad. Es responsabilidad de la 
+implementación del runner instrumentar correctamente esos editores.
+
+
+</body>

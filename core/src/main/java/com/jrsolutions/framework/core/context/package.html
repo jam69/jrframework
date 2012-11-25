@@ -1,0 +1,18 @@
+Datos de Contexto y otras interfaces generales.
+
+<body>
+<h3>Contexto</h3>
+Es la clase que almacena los datos que se intercambian entre los componentes y las operaciones.
+Tiene además variables 'globales' (se diferencian porque su nombre empieza por '$') que son
+accesibles desde toda la aplicación.
+La implementación actual de Contexto, es jerarquica, y cada ventana tiene un contexto, hijo
+de la ventana anterior.
+El contexto hijo, tiene acceso a los contextos superiores, pero nunca los modifica
+(a excepción de las variables globales).
+El contexto permite tambien declarar 'listeners' sobre las variables, de forma que
+se activen cuando cambia una variable.
+En el contexto tambien se puede obtener una propiedad de un objeto (p.ej. empleadoSel.nombre)
+pero el listener se establece en el objeto, no en la propiedad.
+<br>El contexto, tambien almacena los Beans que se han creado en las ventanas.
+
+</body>

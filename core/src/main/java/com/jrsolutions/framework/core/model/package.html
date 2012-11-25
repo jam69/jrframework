@@ -1,0 +1,126 @@
+Describe el Modelo de Aplicacion.
+
+<body>
+<h2>Aplicaciones Modeler</h2>
+En este paquete se define el modelo de aplicación.
+<br><strong>Las clases de este paquete son fundamentales para comprender el
+funcionamiento de las aplicaciones</strong>
+
+<h2>Aplicacion</h2>
+Es la entidad mas general. Agrupa un conjunto de Conversaciones (lo que
+se llamarian 'Casos de uso'). 
+
+<h2>Conversaciones</h2>
+Es cada caso de uso del sistema. No se puede navegar de una conversacion
+a otra, y no comparten ningun dato. (el unico caso para navegar a otra 
+conversación son las 'conversaciones comunes', y simplemente se navega al
+inicio de ellas, nunca entre ventanas).
+
+<h2>Ventanas</h2>
+Son cada uno de los estados de la conversación. Cada ventana tiene una
+parte visual que llamamos 'panel'. Tambien tiene unas posibles 'operaciones'
+que se pueden lanzar, o no, según su 'modo de activación'. Esas operaciones,
+al activarse, ejecutan un método sobre un objeto. Ese objeto se llama 'Bean'.
+Según el resultado de esa ejecución se puede cambiar de ventana.
+<br>Las ventanas pueden tener sub-ventanas, o dialogos, que muestran informacion
+temporal y que luego desaparecen volviendo a la situacion anterior.
+
+<h2>Panel</h2>
+Es la representación visual del runner. Hay varios tipos de paneles que se
+identifican por su 'tipo'. (ese tipo es el nombre de su clase en el runner
+Swing, pero se podrían usar otros nombres).
+<br>Los paneles pueden contener otros paneles, la gestión de como se muestran
+depende de cada panel.
+<br>Los paneles pueden estar parametrizados. Por ello pueden tener 'ModelProperties'. 
+<br>Hay varios tipos de paneles, por ejemplo, horizontal, formulario, tabla,... 
+etc,... Los podemos agrupar en paneles de organización (flowHorizontal,
+vertical, etc,..), especiales (graficos, tablas, displayBean, editBean), o
+formularios.
+<br>Los paneles se pueden re-utilizar en diferentes ventanas de la aplicación
+y se pueden crear nuevos tipos de paquetes según el runner.
+ 
+ <h2>Operacion</h2>
+Son las posibles acciones que suceden en una ventana. Es una pieza fundamental
+del modelo, que todas las acciones estén en la ventana, y que no haya componentes
+o paneles que lanzen lógica del negocio, o de otro tipo. Esto permite que
+las aplicaciones sean facilmente trazables y documentables.
+<br>Las operaciones se activan según su modo de activación. Los modos de activación
+que tenemos definido son:
+<ul>
+<li>INIT: La operación se lanza al crearse la ventana</li>
+<li>TOOLBAR: La operación aparece en una toolbar o barra de menú, desde donde la
+puede activar el usuario</li>
+<li>ONVAR variable:  La operación se lanza al modificarse una variable</li>
+<li>BUTTON id-boton:  La operación se lanza al activar algún componente de la
+ventana (normalmente un botón, un hiper-enlace, o similar)</li>
+<li>ONEXIT: La operación se lanza al cerrar la ventana. Normalmente se usan para
+liberar recursos</li>
+</ul>
+<br>La activación de una operación consiste en la ejecución de un método sobre
+un Bean.
+<h3>Metodos</h3>
+Los métodos describer que se debe lanzar. La descripción que se escribe es un
+String similar a este: <code>'resultado metodo(java.lang.String v1,10)'</code>
+<br> Esto hace que se obtenga los datos de los parámetros (v1 en este caso),
+que se busque el método ('metodo(java.lang.String,java.lang.int)') en el Bean
+definido, y que se invoke el método, y si el método deja un resultado se guarda
+en el contexto con el nombre 'result'. Después según las diferentes 'opciones'
+se va a una ventana u otra.
+<br> Si se deja vacio (o es null) el método, entonces se piensa que el Bean
+es de tipo 'MService' y se llama al método 'execute()' que deberá estar definido.
+
+<h2>Opcion</h2>
+Una operacion, puede tener varias opciones a realizar, según el resultado de la
+ejecución del método. Por ello cada opción tiene un 'valor' que si es igual
+al resultado de la operación, lanza la navegación a otra ventana.
+<br>Como destino se pueden indicar las siguientes cosas:
+<ul>
+<li>Otra ventana: (de la misma conversación), simplemente poniendo el nombre de la ventana.</li>
+<li>Un caso de uso: Irá al inicio de un caso se uso, y al finalizar éste se volverá 
+a este punto. Se hace poniendo un '$' antes del nombre del caso de uso. En este caso
+se pueden copiar variables al caso de uso, escribiendo las asignaciones. P.ej:
+<code>$VerEmpleado empleado=empSeleccionado modo=modoSeleccionado</code>
+Llamaría al caso de uso VerEmpleado, y copiaría la referencia de empSeleccionado y
+modoSeleccionado a los nombres empleado y modo. </li>
+<li>"BACK": Vuelve a la ventana anterior (y lanza las operaciones ONEXIT de esta ventana)</li>
+<li>"FIRST": Vuelve a la ventana inicial de la conversación (y lanza las operaciones ONEXIT 
+de las ventanas que se crearon</li>
+<li>"CLOSE": Cierra la conversación (lanzando todas las operaciones ONEXIT necesarias)</li>
+<li>nombreDialogo: En ese caso lanza el dialogo con el nombre indicado</li>
+</ul>
+
+<h2>Dialogos</h2>
+ Son sub-ventanas que aparecen sobre el panel normal, mostrando un detalle de información
+ que ocuparía mucho espacio en la ventana. Tienen apariencia visual, así que también
+ tienen un 'Panel' igual que las ventanas. Sin embargo, los datos, contextos, operaciones,
+ beans, etc,... son los mismos que los de la ventana a la que pertenecen.
+ <br>En un panel se puede hacer que llame a una operación al cerrar el panel.
+ 
+ <h2>Beans</h2>
+Son la representación de los objetos que lanzan operaciones. En Java cada método debe
+pertenecer a un objeto.
+<br>Los beans se crean al crearse la ventana. Pueden tener métodos para inicializarse
+y destruirse.
+<br>Esta parte del modelo,permanece aún abierta, de forma que se podrían definir
+runners 'Spring' en los que el nombre del bean, se refiera a los beans definidos en
+un entorno Spring. También se podrían definir beans 'locales' o 'remotos' según se
+ejecutaran en el cliente o en servidor, aunque entonces serían dependientes del runner.
+También se podría especificar una configuración mas compleja, como por ejemplo, con
+construcción 'Lazy', o con una sola instancia 'Singleton'. Todo esto no está 
+implementado ya que ligaría la aplicación al Runner.
+
+<h2>ModelProperties</h2>
+Varias de las entidades del modelo se pueden configurar usando propiedades. Por ejemplo
+un panel de tipo 'DisplayEntity' puede tener una propiedad 'ReadOnly' y nosotros le
+asignamos en la aplicación un valor (por ejemplo 'true'). De esta manera, sin cambiar
+las entidades o la estructura de la apliacion (vamos el DTD de application.xml) podemos
+manejar todo tipo de paneles sin tener que conocer a priori sus propiedades.
+<br>Estas propiedades se aplican a Paneles, Beans
+ 
+ <h2>NOTAS</h2>
+ <h4>Ventanas fuera de Conversacion</h4>
+ Se pueden definir ventanas fuera de conversación, para, por ejemplo setear opciones de
+ la aplicación, o setear filtros generales. El uso de esas ventanas depende de la 
+ implementación del Runner.
+
+ </body>

@@ -1,0 +1,12 @@
+
+
+Para documentación sobre el SWT
+
+  http://help.eclipse.org/ganymede/topic/org.eclipse.platform.doc.isv/guide/swt_widgets.htm
+  http://help.eclipse.org/ganymede/index.jsp?topic=/org.eclipse.platform.doc.isv/guide/swt_layouts.htm
+  
+  Ejemplos:
+  http://www.eclipse.org/swt/examples.php
+  
+  Understanding Layouts (ROW, FILL, GRID, FORM
+  http://www.eclipse.org/articles/article.php?file=Article-Understanding-Layouts/index.html

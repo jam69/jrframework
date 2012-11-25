@@ -1,0 +1,3 @@
+
+include 'core','generator','demo-gen'
+//include 'jrframework-core','jrframework-swing','jrframework-generator'

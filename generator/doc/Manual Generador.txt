@@ -1,0 +1,47 @@
+
+JRFramework - Generator
+========================
+Aplica un conjunto de plantillas a un modelo de aplicaci�n de forma que genera una
+serie de ficheros.
+
+Se puede utilizar como ejecutable (java -jar jrframework-generator.jar parametros....)
+o como tarea ANT <Generate parametros....>
+
+Parametros:
+	
+	dirApplication: 	Directorio donde se encuentra el modelo de aplicacion (default:../app)
+	destination:            Directorio donde se generan los ficheros (default: ../generated/ )
+	templateDir:            Directorio donde est�n el conjunto de plantillas. (default: tpl )
+        formsPackage:          SubDirectorio para los formularios (default:forms)
+        convPackage:           SubDirectorio para las conversaciones (default:app)
+	fileSuffix:            Extensión de los ficheros creados (default:.java)
+        config:                 (default: ./configuracion)
+  
+
+Funcionamiento:
+	La aplicacion va llamando las plantillas con el nombre determinado, por cada 
+	entidad del modelo que vaya encontrando.
+
+|   entidad	|    plantilla 		|    genera 
+-----------------------------------------------------------------------------
+|Aplicacion	| Application.ftl	| ${app.nombre}.$ext
+|Conversacion	| Conversation.ftl	| ${convPackage}/${conv.id}.$ext
+|Window		| Window.ftl		| ${convPackage}/${window.id}.$ext
+|XML-Form	| Formulario.ftl	| ${formsPackage}/${form.id}.$ext
+------------------------------------------------------------------------------
+
+Ya que FreeMarker permite anidar llamadas, podemos generar toda la aplicaci�n en
+un solo fichero, llamando desde application.ftl a las demas macros. 
+Por ejemplo:
+  <#list app.getConversations()  as conv>
+    <#import "miConversaion.ftl" as ConvMacro>
+    <@ConvMacro.apply conv/>	
+  </#list>   
+
+Copia de ficheros
+Copy -r ${appDir}/icons ${destination}/icons
+Copy    ${appDir}/menu_definition.xml                ${destination}/${config}
+Copy    ${appDir}/uf_runner.properties                ${destination}/${config}
+Copy    ${appDir}/$(APP_HELP_PATH)                ${destination}/${config}
+Copy    ${appDir}/conversacion.properties                ${destination}/${config}
+Copy    ${appDir}/plugins_packages.properties                ${destination}/${config}

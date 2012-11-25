@@ -1,0 +1,20 @@
+<#--
+    Plantilla de Panel
+    se llama desde la plantilla  'window.ftl'
+    Recibe las  variables:
+       panel:  Componente Panel a generar
+       id:     variable que debe contener el panel
+    Variables a usar en el codigo:
+       ctx:    Contexto.
+    Notas:
+       como va a anidar llamadas a otros paneles copiamos panel e id para guardar
+       su valor original. Y luego vamos seteando las variables y llamando a las
+       templates 'hijas'
+-->    
+		// PanelVacio 
+		<#assign txt = panel.modelProperty("text")!"Texto de Prueba" />
+		Layout ${id}=new FillLayout();
+		Label label${id} = new Label (composite, SWT.CENTER);
+        label${id}.setText ("${escape(txt)}");
+        composite.setLayout(${id});
+		// Fin PanelVacio

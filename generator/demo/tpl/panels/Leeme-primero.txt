@@ -1,0 +1,21 @@
+
+Recetas para los paneles
+---------------------------
+
+1. Los paneles funcionan con el FreeMarker en modo Bean, o sea que se accede siempre
+   a propiedades de los objetos, y no a traves del DOM ([0],@,.* ,...)
+2. Los paneles deben ser 'macros' porque son recursivos y una plantilla puede llamarse
+   a si misma.
+3. Como macros, definen un nombre conocido 'macroPanel' y reciben dos parametros 'id'
+   el nombre de la variable que contendrá el panel y 'panel' con el panel a implementar.
+4. Como es macro, no usar nunca 'assign' y utilizar en su lugar 'local'
+5. Declarar como 'final' las variables que se usarán en los listeners
+6. Definir bloques con '{' y '}' para poder usar variables locales y que no diga que 
+   están repetidas
+7. Llamar a los paneles hijos con el nombre nuevo y el el panel adecuado utilizando
+   'import' en lugar de include, y luego llamando a la macro
+8. Utilizar las variables 'ctx' (con el contexto) y 'log' (con el log) sin ningún problema
+9. En caso de definir objetos fuera de los paquetes conocidos, poner en la clase el
+   nombre completo (incluyendo el package), si hay muchos incluirlos en el 'window.ftl'
+            
+     
